@@ -1,0 +1,32 @@
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.dll
+*.json
+
+# Build results
+
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]in/
+[Oo]bj/
+Shipping/
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.idb
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+.vs/
