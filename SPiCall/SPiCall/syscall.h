@@ -16,7 +16,7 @@ namespace SPiCall {
 			return hash;
 		}
 
-		int get_syscall_no(uint32_t namehash);
+		int get_syscall_no(uint32_t namehash); // thread safe
 
 		template<size_t N>
 		inline int get_syscall_no(const char(&name)[N]) {
@@ -25,7 +25,7 @@ namespace SPiCall {
 		};
 
 		template<typename... Args>
-		inline unsigned long syscall(int sysno, Args... args) // thread safe
+		inline unsigned long syscall(int sysno, Args... args)
 		{
 			//Alter: inline asm here to make syscall inline
 			using FnType = unsigned long(*)(int, size_t, uint64_t...);

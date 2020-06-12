@@ -19,7 +19,9 @@ size_t MapFreshNt()
 		{
 			wntdll[j] = cntdll[j * 2 + 1];
 		}
-		OBJECT_ATTRIBUTES attr{ .Length = sizeof(OBJECT_ATTRIBUTES),.Attributes = 64 };
+		OBJECT_ATTRIBUTES attr;
+		attr.Length = sizeof(OBJECT_ATTRIBUTES);
+		attr.Attributes = 64 ;
 		UNICODE_STRING pstr2{ sizeof(cntdll) - 2,sizeof(cntdll), wntdll};
 		attr.ObjectName = &pstr2;
 		attr.RootDirectory = i;
