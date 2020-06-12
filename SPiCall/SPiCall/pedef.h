@@ -141,57 +141,6 @@ namespace SPiCall
 			IMAGE_OPTIONAL_HEADER OptionalHeader;
 		};
 
-		struct DEBUG_INFO;
-		struct DEBUG_DIRECTORY :PE_DIRECTORY
-		{
-			BYTE		PADDING[0x14];
-			RVA32<DEBUG_INFO>	info;
-		};
-
-		struct DEBUG_INFO
-		{
-#pragma pack(push,1)
-			DWORD		magic;
-			DWORD		id_0_4_r;
-			WORD		id_4_6_r;
-			WORD		id_6_8_r;
-			QWORD		id_8_16;
-			BYTE		id_17_null3[4];
-			char		PDBInfo[1];
-#pragma pack(pop)
-
-			std::optional<std::pair<std::string, std::string>> exp()
-			{
-				char buff[261] = { 0 };
-				memcpy(buff, PDBInfo, 260);
-				std::string pdbInfo = buff;
-
-				auto fChToHex = [](BYTE* begin, int length, bool BE = false)->std::string
-				{
-					static const char* digits = "0123456789ABCDEF";
-					std::string rc(length << 1, '0');
-
-					BYTE* start = BE ? begin : begin + length - 1;
-					BYTE* end = !BE ? begin - 1 : begin + length;
-					int delta = BE ? 1 : -1;
-					int index = 0;
-					for (auto i = start; i != end; i += delta)
-					{
-						rc[index++] = digits[((*i) >> 4) & 0xf];
-						rc[index++] = digits[(*i) & 0xf];
-					}
-					return rc;
-				};
-				std::string dbgId = fChToHex((BYTE*)&id_0_4_r, 4);
-				dbgId += fChToHex((BYTE*)&id_4_6_r, 2);
-				dbgId += fChToHex((BYTE*)&id_6_8_r, 2);
-				dbgId += fChToHex((BYTE*)&id_8_16, 8, true);
-				dbgId += fChToHex(id_17_null3, 1, true).substr(1);
-
-				return std::make_pair(dbgId, pdbInfo);
-			}
-		};
-
 		struct IMAGE_SECTION_HEADER {
 			BYTE    Name[__IMAGE_SIZEOF_SHORT_NAME];
 			union {
