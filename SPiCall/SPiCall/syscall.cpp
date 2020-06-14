@@ -99,7 +99,7 @@ bool SPiCall::init()
 		const char* moveax = BinUtil::findPattern((char*)func, 0x20, pat1);
 		if (!moveax)
 		{
-			const auto pat2 = BinUtil::pattern_to_ints("B8 ?? ?? 00 00 ?? ?? ?? ?? ?? ?? ?? ?? 75 03 0f 05");
+			const auto pat2 = BinUtil::pattern_to_ints("B8 ?? ?? 00 00 0f 05");
 			moveax = BinUtil::findPattern((char*)func, 0x20, pat2);
 		}
 

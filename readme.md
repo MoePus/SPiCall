@@ -22,7 +22,7 @@ Yet another windows syscall library
     SPiCall::init();
     // Safe: No string literals after compile
     v0 = SPiCall::syscall::get_syscall_no(0x1F2F8E87u);
-    syscall_stub(v0, 2i64, -1i64, 0i64);
+    asm_syscall(v0, 2i64, -1i64, 0i64);
 ```
 
 ## System Hooked?
