@@ -60,6 +60,6 @@ namespace BinUtil {
 	template<size_t N>
 	inline const char* findPattern(const char* buff, size_t len, const char(&pattern)[N])
 	{
-		return _findPattern<N/3>(buff, len, pattern_to_ints(pattern));
+		return findPattern<N/3>(buff, len, pattern_to_ints(pattern));
 	}
 }
