@@ -19,7 +19,7 @@ namespace SPiCall {
 		int get_syscall_no(uint32_t namehash); // thread safe
 
 		template<size_t N>
-		inline int get_syscall_no(const char(&name)[N]) {
+		inline constexpr int get_syscall_no(const char(&name)[N]) {
 			auto hash = fnv1a_32(name);
 			return get_syscall_no(hash);
 		};
@@ -36,6 +36,12 @@ namespace SPiCall {
 		inline unsigned long nt_syscall(const char(&name)[N], Args&& ... args)
 		{
 			return syscall(get_syscall_no(name), std::forward<Args>(args)...);
+		}
+
+		template<typename... Args>
+		inline unsigned long nt_syscall(uint32_t namehash, Args&& ... args)
+		{
+			return syscall(get_syscall_no(namehash), std::forward<Args>(args)...);
 		}
 	}
 }

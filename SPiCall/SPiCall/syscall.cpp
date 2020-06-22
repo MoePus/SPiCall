@@ -95,12 +95,14 @@ bool SPiCall::init()
 	for (int i = 0; i < (int)edir->NumberOfFunctions; i++)
 	{
 		auto func = FnView[i].with(ntdll);
-		const auto pat1 = BinUtil::pattern_to_ints("B8 ?? ?? 00 00 ?? ?? ?? ?? ?? ?? ?? ?? 75 03 0f 05");
-		const char* moveax = BinUtil::findPattern((char*)func, 0x20, pat1);
+		const char* moveax = BinUtil::findPattern((char*)func, 0x20, std::array<short,17>{
+			0xb8,-0x11,-0x11,0,0, -0x11, -0x11, -0x11, -0x11, -0x11, -0x11, -0x11, -0x11,0x75,3,0xf,5
+		});
 		if (!moveax)
 		{
-			const auto pat2 = BinUtil::pattern_to_ints("B8 ?? ?? 00 00 0f 05");
-			moveax = BinUtil::findPattern((char*)func, 0x20, pat2);
+			moveax = BinUtil::findPattern((char*)func, 0x20, std::array<short, 17>{
+				0xb8, -0x11, -0x11, 0, 0, 0xf, 5
+			});
 		}
 
 		if (moveax)
